@@ -1,0 +1,80 @@
+
+# 日志
+logging:
+    config: classpath:logback-spring.xml
+    # 日志路径
+    path: D:/temp/mcs
+# actuator
+management:
+    endpoint:
+        health:
+            show-details: always
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+# mybatis
+mybatis:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+        map-underscore-to-camel-case: true
+    type-aliases-package: com.example.boot.dao.model
+# 服务器
+server:
+    port: 8888
+spring:
+    datasource:
+        hikari:
+            minimum-idle: 5
+            idle-timeout: 180000
+            maximum-pool-size: 32
+            max-lifetime: 1800000
+            # 超时，毫秒（单位）
+            connection-timeout: 300000
+            connection-test-query: SELECT 1
+            register-mbeans: true
+        driver-class-name: com.mysql.jdbc.Driver
+        password: 123456
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+        username: root
+    redis:
+        host: 192.168.10.110
+        jedis:
+            pool:
+                max-idle: 32
+        lettuce:
+            pool:
+                max-active: 512
+                max-wait: 10s
+                min-idle: 16
+        password: '#$%123456_!^%$#'
+        port: 6379
+        timeout: 10s
+    rabbitmq:
+        host: 127.0.0.1
+        port: 5672
+        username: admin
+        password: admin
+        publisher-returns: true
+        publisher-confirms: true
+        listener:
+            simple:
+                concurrency: 10
+                max-concurrency: 10
+                prefetch: 1
+                auto-startup: true
+                default-requeue-rejected: true
+        template:
+            retry:
+                enabled: true
+                initial-interval: 10s
+                max-attempts: 3
+                max-interval: 10s
+                multiplier: 1.0
+
+jwt:
+    tokenHeader: Authorization #JWT存储的请求头
+    secret: mySecret #JWT加解密使用的密钥
+    expiration: 604800 #JWT的超期限时间(60*60*24)
+    tokenHead: Bearer  #JWT负载中拿到开头
