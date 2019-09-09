@@ -1,10 +1,12 @@
 package com.example.boot.controller;
 
 import com.example.boot.model.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
+@Slf4j
 public class TaskController {
 
     @GetMapping
@@ -19,6 +21,7 @@ public class TaskController {
 
     @PutMapping("/{taskId}")
     public Response updateTasks(@PathVariable("taskId") Integer id) {
+        log.info("测试一些内容");
         return Response.of("200", "更新了一下id为:" + id + "的任务");
     }
 

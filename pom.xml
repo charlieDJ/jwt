@@ -38,6 +38,7 @@
         <okhttp.version>3.14.2</okhttp.version>
         <swagger2markup.version>1.3.3</swagger2markup.version>
         <swagger.model.version>1.5.21</swagger.model.version>
+        <log.encoder.version>6.1</log.encoder.version>
     </properties>
 
     <dependencies>
@@ -168,6 +169,11 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${log.encoder.version}</version>
         </dependency>
     </dependencies>
 

@@ -1,13 +1,18 @@
 package com.example.boot.aspect;
 
+import com.alibaba.fastjson.JSON;
+import com.example.boot.model.generic.WebLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import net.logstash.logback.marker.Markers;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,8 +22,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @Aspect
 @Component
@@ -40,8 +48,8 @@ public class LogAspect {
      *
      * @param joinPoint
      */
-    @Before("log()")
-    public void doBefore(JoinPoint joinPoint) {
+    @Around("log()")
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         startTime.set(Instant.now().toEpochMilli());
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String method = request.getMethod();
@@ -80,30 +88,47 @@ public class LogAspect {
             }
         }
         log.info("Request Params >>>>>> method={},params={}", method, params);
-    }
-
-    /**
-     * 在方法执行后打印返回内容
-     *
-     * @param obj
-     */
-    @AfterReturning(returning = "obj", pointcut = "log()")
-    public void doAfterReturning(Object obj) {
-        String result = null;
-        if (obj instanceof Serializable) {
-            result = obj.toString();
+        Object resultObj = joinPoint.proceed();
+        Object result = resultObj;
+        if (result instanceof Serializable) {
+            result = result.toString();
         } else {
-            if (obj != null) {
+            if (result != null) {
                 try {
-                    result = objectMapper.writeValueAsString(obj);
+                    result = objectMapper.writeValueAsString(result);
                 } catch (JsonProcessingException e) {
-                    log.error("doAfter Returning obj to json exception obj={},msg={}", obj, e);
+                    log.error("doAfter Returning obj to json exception obj={},msg={}", result, e);
                 }
             }
         }
         log.info("Response Result <<<<<< result={}", result);
+        long spendTime = Instant.now().toEpochMilli() - startTime.get();
         log.info("SPEND TIME: {} mills", Instant.now().toEpochMilli() - startTime.get());
+        // 保存日志
+        WebLog webLog = new WebLog();
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method realMethod = methodSignature.getMethod();
+        if (realMethod.isAnnotationPresent(ApiOperation.class)) {
+            ApiOperation log = realMethod.getAnnotation(ApiOperation.class);
+            webLog.setDescription(log.value());
+        }
+        webLog.setUri(request.getRequestURI())
+                .setUrl(request.getRequestURL().toString())
+                .setSpendTime(spendTime)
+                .setStartTime(startTime.get())
+                .setParameter(params)
+                .setResult(resultObj)
+                .setIp(request.getRemoteHost())
+                .setMethod(request.getMethod());
+        Map<String, Object> logMap = new HashMap<>();
+        logMap.put("url", webLog.getUrl());
+        logMap.put("method", webLog.getMethod());
+        logMap.put("parameter", webLog.getParameter());
+        logMap.put("spendTime", webLog.getSpendTime());
+        logMap.put("description", webLog.getDescription());
+        log.info(Markers.appendEntries(logMap), JSON.toJSONString(webLog));
         startTime.remove();
+        return resultObj;
     }
-
 }
