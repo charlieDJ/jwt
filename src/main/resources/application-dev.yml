@@ -56,7 +56,9 @@ spring:
         port: 5672
         username: admin
         password: admin
+        # exchange到Queue即使，失败则返回消息(需设置mandatory=true,否则不回回调,消息就丢了)
         publisher-returns: true
+        # producer 到 Exchange 确认机制
         publisher-confirms: true
         listener:
             simple:
@@ -72,6 +74,7 @@ spring:
                 max-attempts: 3
                 max-interval: 10s
                 multiplier: 1.0
+            mandatory: true
 
 jwt:
     #JWT存储的请求头
