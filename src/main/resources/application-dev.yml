@@ -67,6 +67,7 @@ spring:
                 prefetch: 1
                 auto-startup: true
                 default-requeue-rejected: true
+                acknowledge-mode: manual
         template:
             retry:
                 enabled: true

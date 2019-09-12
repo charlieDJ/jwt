@@ -22,14 +22,14 @@ public class CallBackSender implements RabbitTemplate.ConfirmCallback, RabbitTem
         rabbitTemplate.setConfirmCallback(this);
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
 
-        System.out.println("消息id:" + correlationData.getId());
+        System.out.println("发送消息，消息id:" + correlationData.getId());
         // 用RabbitMQ发送MQTT需将exchange配置为amq.topic
         this.rabbitTemplate.convertAndSend(PublisherConfirmConfig.EXCHANGE_NAME, routingKey, message, correlationData);
     }
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        System.out.println("消息id:" + correlationData.getId());
+        System.out.println("消息已确认，消息id:" + correlationData.getId());
         if (ack) {
             System.out.println("消息发送确认成功");
         } else {

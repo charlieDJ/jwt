@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class PublisherConfirmConfig {
-    public final static String EXCHANGE_NAME = "topic.publisher";
-    public final static String QUEUE_NAME = "topic.publisher.queue";
-    private final static String ROUTING_KEY = "topic.publisher.#";
+    public static final String EXCHANGE_NAME = "topic.publisher";
+    public static final String QUEUE_NAME = "topic.publisher.queue";
+    private static final String ROUTING_KEY = "topic.publisher.#";
 
     @Bean
     TopicExchange publisherExchange() {
@@ -33,6 +33,5 @@ public class PublisherConfirmConfig {
     public Binding binding() {
         return BindingBuilder.bind(publisherQueue()).to(publisherExchange()).with(ROUTING_KEY);
     }
-
 
 }
