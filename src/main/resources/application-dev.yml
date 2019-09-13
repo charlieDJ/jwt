@@ -3,7 +3,7 @@
 logging:
     config: classpath:logback-spring.xml
     # 日志路径
-    path: D:/temp/mcs
+    path: E:/temp/mcs
 # actuator
 management:
     endpoint:
@@ -21,7 +21,7 @@ mybatis:
     type-aliases-package: com.example.boot.dao.model
 # 服务器
 server:
-    port: 8888
+    port: 8090
 spring:
     datasource:
         hikari:
@@ -52,10 +52,10 @@ spring:
         port: 6379
         timeout: 10s
     rabbitmq:
-        host: 127.0.0.1
+        host: 192.168.113.130
         port: 5672
-        username: admin
-        password: admin
+        username: guest
+        password: guest
         # exchange到Queue即使，失败则返回消息(需设置mandatory=true,否则不回回调,消息就丢了)
         publisher-returns: true
         # producer 到 Exchange 确认机制

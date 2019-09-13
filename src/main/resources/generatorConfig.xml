@@ -19,7 +19,7 @@
         </plugin>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.10.103:3306/cardmen1?useUnicode=true&amp;characterEncoding=UTF-8"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"
                         userId="root"
                         password="123456">
         </jdbcConnection>
@@ -29,7 +29,7 @@
         <sqlMapGenerator targetPackage="${targetXMLPackage}"  targetProject="${targetResourcesProject}"/>
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
-        <table tableName="tb_smc_imsi">
+        <table tableName="jd_user">
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
     </context>
