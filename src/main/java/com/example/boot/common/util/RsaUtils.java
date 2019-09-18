@@ -23,7 +23,8 @@ public class RsaUtils {
     // 获取密钥对
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-        generator.initialize(1024);//定义秘钥长度为1024
+        //定义秘钥长度为1024
+        generator.initialize(1024);
         return generator.generateKeyPair();
     }
 
