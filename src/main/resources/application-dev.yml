@@ -52,7 +52,7 @@ spring:
         port: 6379
         timeout: 10s
     rabbitmq:
-        host: 192.168.113.130
+        host: 127.0.0.1
         port: 5672
         username: guest
         password: guest
@@ -68,6 +68,11 @@ spring:
                 auto-startup: true
                 default-requeue-rejected: true
                 acknowledge-mode: manual
+                retry:
+                    max-attempts: 3
+                    max-interval: 5000ms
+                    enabled: true
+                    initial-interval: 1000ms
         template:
             retry:
                 enabled: true
