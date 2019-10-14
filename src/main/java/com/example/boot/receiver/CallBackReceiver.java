@@ -1,7 +1,6 @@
 package com.example.boot.receiver;
 
 import com.example.boot.common.config.PublisherConfirmConfig;
-import com.example.boot.exception.CustomException;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -19,11 +18,11 @@ import java.io.IOException;
 public class CallBackReceiver {
 
     @RabbitListener(queues = {PublisherConfirmConfig.QUEUE_NAME}, errorHandler = "rabbitListenerErrorHandler")
-    public void receive(String request, Message message, Channel channel) throws IOException, InterruptedException {
+    public void receive(String request, Message message, Channel channel) throws IOException {
         log.info("开始处理消息：{}", request);
-        if (1 == 1) {
+        /*if (1 == 1) {
             throw new CustomException("");
-        }
+        }*/
         // 确认消息已经消费成功
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }

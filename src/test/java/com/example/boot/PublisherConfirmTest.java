@@ -1,5 +1,6 @@
 package com.example.boot;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.boot.sender.CallBackSender;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class PublisherConfirmTest extends  JwtApplicationTests{
 
     @Test
     public void topic() throws Exception {
-        sender.send("topic.publisher.testRouting", "测试消息");
+        JSONObject json = new JSONObject();
+        json.put("msg", "测试消息");
+        sender.send("topic.publisher.testRouting", json.toJSONString());
     }
 }

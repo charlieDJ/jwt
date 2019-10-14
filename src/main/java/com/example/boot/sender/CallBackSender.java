@@ -27,6 +27,13 @@ public class CallBackSender implements RabbitTemplate.ConfirmCallback, RabbitTem
         this.rabbitTemplate.convertAndSend(PublisherConfirmConfig.EXCHANGE_NAME, routingKey, message, correlationData);
     }
 
+    /**
+     * 服务端确认 ack=true
+     *
+     * @param correlationData 关联数据
+     * @param ack             是否确认
+     * @param cause           错误原因
+     */
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         System.out.println("消息已确认，消息id:" + correlationData.getId());
@@ -37,6 +44,15 @@ public class CallBackSender implements RabbitTemplate.ConfirmCallback, RabbitTem
         }
     }
 
+    /**
+     * 找不对队列时回调，属性 template.mandatory=true
+     *
+     * @param message    消息
+     * @param replyCode  回应码
+     * @param replyText  回应文本
+     * @param exchange   交换机
+     * @param routingKey 路由键
+     */
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
         System.out.println("return--message:" + new String(message.getBody()) + ",replyCode:" + replyCode
