@@ -29,7 +29,7 @@
         <sqlMapGenerator targetPackage="${targetXMLPackage}"  targetProject="${targetResourcesProject}"/>
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
-        <table tableName="jd_user">
+        <table tableName="stock">
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
     </context>

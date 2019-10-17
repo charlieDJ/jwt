@@ -3,7 +3,7 @@
 logging:
     config: classpath:logback-spring.xml
     # 日志路径
-    path: E:/temp/mcs
+    path: E:/temp/jwt
 # actuator
 management:
     endpoint:
