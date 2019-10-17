@@ -1,5 +1,6 @@
 package com.example.boot.controller;
 
+import com.example.boot.common.anno.RateLimit;
 import com.example.boot.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,12 @@ public class TaskController {
         return "创建了一个新的任务";
     }
 
+    /**
+     * 10 秒中，可以访问10次
+     * @param id
+     * @return
+     */
+    @RateLimit(key = "test", time = 10, count = 10)
     @PutMapping("/{taskId}")
     public Response updateTasks(@PathVariable("taskId") Integer id) {
         log.info("测试一些内容");
