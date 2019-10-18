@@ -14,9 +14,9 @@ import java.util.ArrayList;
 @Getter
 @SuppressWarnings("unchecked")
 public class Response<T> {
-    private static final String ok = "200";
-    private static final String error= "600";
-    private static final String noAuth = "607";
+    private static final String OK = "200";
+    private static final String ERROR = "600";
+    private static final String NO_AUTH = "607";
 
     private String code;
     private String msg;
@@ -38,23 +38,23 @@ public class Response<T> {
 
 
     public static <T> Response<T> success(T data) {
-        return new Response("200", "", data);
+        return new Response("200", "success", data);
     }
 
     public static Response success() {
-        return new Response<>(ok, "", new ArrayList<>());
+        return new Response<>(OK, "success", new ArrayList<>());
     }
 
     public static <T> Response<T> error() {
-        return new Response<>(error, null);
+        return new Response<>(ERROR, null);
     }
 
     public static <T> Response<T> error(String msg) {
-        return new Response(error, msg, new ArrayList<>());
+        return new Response(ERROR, msg, new ArrayList<>());
     }
 
     public static <T> Response<T> auth(String msg) {
-        return new Response(noAuth, msg, new ArrayList<>());
+        return new Response(NO_AUTH, msg, new ArrayList<>());
     }
 
     public static <T> Response<T> of(String code, String msg, T data) {
