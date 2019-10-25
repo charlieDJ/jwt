@@ -19,6 +19,7 @@ public class BitTest {
         int b = Integer.MIN_VALUE;
         System.out.println(b + "的二进制形式：" + Integer.toBinaryString(b));
         System.out.println(b + "左移：" + Integer.toBinaryString(b << 2));
+        System.out.println("换行符2");
 
         System.out.println("##################################java 正数 左移##############################");
         int c = 5;
