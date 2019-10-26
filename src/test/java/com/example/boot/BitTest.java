@@ -13,7 +13,7 @@ public class BitTest {
         System.out.println(a + "有符号右移：" +Integer.toBinaryString(a >> 2)+",符号存在");
         // 无符号右移
         System.out.println(a + "无符号右移：" +Integer.toBinaryString(a >>> 2)+"，符号消失，被0填充，0被省略");
-
+        System.out.println();
 
         System.out.println("################################java 负数 左移###############################");
         int b = Integer.MIN_VALUE;
