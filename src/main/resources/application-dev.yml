@@ -1,93 +1,92 @@
-
 # 日志
 logging:
-    config: classpath:logback-spring.xml
-    # 日志路径
-    path: E:/temp/jwt
+  config: classpath:logback-spring.xml
+  # 日志路径
+  path: E:/temp/jwt
 # actuator
 management:
-    endpoint:
-        health:
-            show-details: always
-    endpoints:
-        web:
-            exposure:
-                include: '*'
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 # mybatis
 mybatis:
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-        map-underscore-to-camel-case: true
-    type-aliases-package: com.example.boot.dao.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.boot.dao.model
 # 服务器
 server:
-    port: 8090
+  port: 8090
 spring:
-    datasource:
-        hikari:
-            minimum-idle: 5
-            idle-timeout: 180000
-            maximum-pool-size: 32
-            max-lifetime: 1800000
-            # 超时，毫秒（单位）
-            connection-timeout: 300000
-            connection-test-query: SELECT 1
-            register-mbeans: true
-        driver-class-name: com.mysql.jdbc.Driver
-        password: 123456
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-        username: root
-    redis:
-        host: 192.168.10.110
-        jedis:
-            pool:
-                max-idle: 32
-        lettuce:
-            pool:
-                max-active: 512
-                max-wait: 10s
-                min-idle: 16
-        password: '#$%123456_!^%$#'
-        port: 6379
-        timeout: 10s
-    rabbitmq:
-        host: 127.0.0.1
-        port: 5672
-        username: guest
-        password: guest
-        # exchange到Queue即使，失败则返回消息(需设置mandatory=true,否则不回回调,消息就丢了)
-        publisher-returns: true
-        # producer 到 Exchange 确认机制
-        publisher-confirms: true
-        listener:
-            simple:
-                concurrency: 10
-                max-concurrency: 10
-                prefetch: 1
-                auto-startup: true
-                default-requeue-rejected: true
-                acknowledge-mode: manual
-                retry:
-                    max-attempts: 3
-                    max-interval: 5000ms
-                    enabled: true
-                    initial-interval: 1000ms
-        template:
-            retry:
-                enabled: true
-                initial-interval: 10s
-                max-attempts: 3
-                max-interval: 10s
-                multiplier: 1.0
-            mandatory: true
+  datasource:
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 32
+      max-lifetime: 1800000
+      # 超时，毫秒（单位）
+      connection-timeout: 300000
+      connection-test-query: SELECT 1
+      register-mbeans: true
+    driver-class-name: com.mysql.jdbc.Driver
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://192.168.10.103:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root
+  redis:
+    host: 192.168.10.110
+    jedis:
+      pool:
+        max-idle: 32
+    lettuce:
+      pool:
+        max-active: 512
+        max-wait: 10s
+        min-idle: 16
+    password: '#$%123456_!^%$#'
+    port: 6379
+    timeout: 10s
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    # exchange到Queue即使，失败则返回消息(需设置mandatory=true,否则不回回调,消息就丢了)
+    publisher-returns: true
+    # producer 到 Exchange 确认机制
+    publisher-confirms: true
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+        acknowledge-mode: manual
+        retry:
+          max-attempts: 3
+          max-interval: 5000ms
+          enabled: true
+          initial-interval: 1000ms
+    template:
+      retry:
+        enabled: true
+        initial-interval: 10s
+        max-attempts: 3
+        max-interval: 10s
+        multiplier: 1.0
+      mandatory: true
 
 jwt:
-    #JWT存储的请求头
-    tokenHeader: Authorization
-    #JWT加解密使用的密钥
-    secret: mySecret
-    #JWT的超期限时间(60*60*24)
-    expiration: 604800
-    #JWT负载中拿到开头
-    tokenHead: Bearer
+  #JWT存储的请求头
+  tokenHeader: Authorization
+  #JWT加解密使用的密钥
+  secret: mySecret
+  #JWT的超期限时间(60*60*24)
+  expiration: 604800
+  #JWT负载中拿到开头
+  tokenHead: Bearer

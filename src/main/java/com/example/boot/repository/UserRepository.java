@@ -1,4 +1,4 @@
-package com.example.boot.dao.repository;
+package com.example.boot.repository;
 
 import com.example.boot.dao.model.User;
 import org.springframework.data.repository.CrudRepository;

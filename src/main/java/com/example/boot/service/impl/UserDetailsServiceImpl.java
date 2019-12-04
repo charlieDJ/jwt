@@ -2,7 +2,7 @@ package com.example.boot.service.impl;
 
 import com.example.boot.dao.model.JwtUser;
 import com.example.boot.dao.model.User;
-import com.example.boot.dao.repository.UserRepository;
+import com.example.boot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
