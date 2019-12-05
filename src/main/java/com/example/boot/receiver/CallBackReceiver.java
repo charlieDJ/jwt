@@ -19,7 +19,8 @@ public class CallBackReceiver {
 
     @RabbitListener(queues = {PublisherConfirmConfig.QUEUE_NAME}, errorHandler = "rabbitListenerErrorHandler")
     public void receive(String request, Message message, Channel channel) throws IOException {
-        log.info("开始处理消息：{}", request);
+        System.out.println("reading Message");
+        log.info("reading msg：{}", request);
         /*if (1 == 1) {
             throw new CustomException("");
         }*/
