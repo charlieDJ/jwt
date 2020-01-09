@@ -29,4 +29,7 @@ public class Dept {
 
     @Column(name = "`loc`")
     private String loc;
+
+    @Column(name = "`level`")
+    private String level;
 }

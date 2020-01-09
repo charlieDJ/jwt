@@ -18,7 +18,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   type-aliases-package: com.example.boot.dao.model
-# 服务器
+  type-handlers-package: com.example.boot.common.config.handler
 server:
   port: 8090
 spring:
@@ -90,3 +90,4 @@ jwt:
   expiration: 604800
   #JWT负载中拿到开头
   tokenHead: Bearer
+
