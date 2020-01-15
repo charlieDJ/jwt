@@ -12,14 +12,16 @@ public enum Level implements LabelValue {
     /**
      * s
      */
-    ONE(1),
-    TWO(2);
+    ONE(1, "一级"),
+    TWO(2, "二级");
     private int code;
 
-    Level(int code) {
-        this.code = code;
-    }
+    private String desc;
 
+    Level(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
 
     @Override
     public String getLabel() {

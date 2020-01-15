@@ -18,7 +18,7 @@ public class DeptMapperTest extends JwtApplicationTests {
     private DeptMapper deptMapper;
 
     @Test
-    public void getTest(){
+    public void getTest() {
         final Optional<DeptData> deptOpt = deptMapper.getById(8);
         final DeptData deptData = deptOpt.get();
         System.err.println(deptData.toString());
