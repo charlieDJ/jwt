@@ -3,7 +3,9 @@ package com.example.boot.aspect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Order(1)
 @Aspect
@@ -100,4 +103,10 @@ public class LogAspect {
         startTime.remove();
         return resultObj;
     }
+
+    @After("log()")
+    public void after(JoinPoint joinpoint) {
+        System.out.println("logEnd>>>>>" + joinpoint.getSignature().getName() + ">>>>" + Arrays.toString(joinpoint.getArgs()));
+    }
+
 }
