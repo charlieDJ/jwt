@@ -16,7 +16,7 @@ public class DeptData {
 
     private String dname;
 
-    private String loc;
+    private String loc = "";
 
     private Level level;
 }

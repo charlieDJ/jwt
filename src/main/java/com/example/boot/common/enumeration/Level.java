@@ -1,6 +1,5 @@
 package com.example.boot.common.enumeration;
 
-import com.example.boot.common.config.handler.LabelValue;
 import lombok.Getter;
 
 /**

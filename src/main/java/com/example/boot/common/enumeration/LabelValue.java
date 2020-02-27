@@ -1,4 +1,4 @@
-package com.example.boot.common.config.handler;
+package com.example.boot.common.enumeration;
 
 /**
  * @author liuzh

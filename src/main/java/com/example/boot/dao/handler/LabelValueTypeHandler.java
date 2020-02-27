@@ -1,5 +1,6 @@
-package com.example.boot.common.config.handler;
+package com.example.boot.dao.handler;
 
+import com.example.boot.common.enumeration.LabelValue;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
@@ -11,22 +12,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author liuzh
- */
+//泛型是 E extends LabelValue
+//如果这里增加下面的配置，在配置时就不需要指定 JavaType，很明显这种情况下使用注解最方便
+//注解和 javaType 的关系参考 2.1 节
 @MappedTypes(LabelValue.class)
 public class LabelValueTypeHandler<E extends LabelValue> extends BaseTypeHandler<E> {
-    /**
-     * 枚举类型
-     */
     private Class<E> type;
-    /**
-     * 枚举value和枚举实例的映射
-     */
+    //记录枚举值和枚举的对应关系
     private Map<Integer, E> enumMap;
-
-    public LabelValueTypeHandler() {
-    }
 
     public LabelValueTypeHandler(Class<E> type) {
         if (type == null) {
@@ -36,8 +29,9 @@ public class LabelValueTypeHandler<E extends LabelValue> extends BaseTypeHandler
         E[] enums = type.getEnumConstants();
         //配置到 <typeHandler> 初始化时，这里的 type 只是一个接口，并不是枚举，所以要特殊判断
         //下面除了第一个 setNonNullParameter 赋值不需要 enumMap，其他 3 个都需要，
-        //由于正常情况下实体类不会使用 LabelValue 接口类型，所以这里没有对 null 进行判断
+        //由于正常情况下实体类不会使用 LabelValue 接口类型，所以这里没有对 null 进行特殊处理
         if (enums != null) {
+            //这里将枚举值和枚举类型存入 enumMap，方便后续快速取值
             this.enumMap = new HashMap<>(enums.length);
             for (int i = 0; i < enums.length; i++) {
                 this.enumMap.put(enums[i].getValue(), enums[i]);
@@ -57,6 +51,7 @@ public class LabelValueTypeHandler<E extends LabelValue> extends BaseTypeHandler
             return null;
         } else {
             try {
+                //取出值对应的枚举类
                 return enumMap.get(i);
             } catch (Exception ex) {
                 throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
@@ -71,6 +66,7 @@ public class LabelValueTypeHandler<E extends LabelValue> extends BaseTypeHandler
             return null;
         } else {
             try {
+                //取出值对应的枚举类
                 return enumMap.get(i);
             } catch (Exception ex) {
                 throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
@@ -85,6 +81,7 @@ public class LabelValueTypeHandler<E extends LabelValue> extends BaseTypeHandler
             return null;
         } else {
             try {
+                //取出值对应的枚举类
                 return enumMap.get(i);
             } catch (Exception ex) {
                 throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
