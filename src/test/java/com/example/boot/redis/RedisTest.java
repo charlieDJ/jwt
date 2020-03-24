@@ -24,5 +24,4 @@ public class RedisTest extends JwtApplicationTests {
         log.info("send time: {}" + LocalDateTime.now().toString());
         TimeUnit.SECONDS.sleep(2);
     }
-
 }

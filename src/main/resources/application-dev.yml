@@ -17,8 +17,9 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+    default-enum-type-handler: com.example.boot.dao.handler.LabelValueTypeHandler
   type-aliases-package: com.example.boot.dao.model
-  type-handlers-package: com.example.boot.common.config.handler
+  type-handlers-package: com.example.boot.dao.handler
 server:
   port: 8090
 spring:
@@ -48,13 +49,13 @@ spring:
         max-wait: 10s
         min-idle: 16
     password: '123456'
-    port: 6379
+    port: 16379
     timeout: 10s
   rabbitmq:
     host: 127.0.0.1
     port: 5672
-    username: guest
-    password: guest
+    username: admin
+    password: 123456
     # exchange到Queue即使，失败则返回消息(需设置mandatory=true,否则不回回调,消息就丢了)
     publisher-returns: true
     # producer 到 Exchange 确认机制
