@@ -1,9 +1,8 @@
 package com.example.boot.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
 
 /**
  * 统一返回
@@ -12,14 +11,15 @@ import java.util.ArrayList;
  */
 @Setter
 @Getter
-@SuppressWarnings("unchecked")
 public class Response<T> {
     private static final String OK = "200";
     private static final String ERROR = "600";
     private static final String NO_AUTH = "607";
-
+    @ApiModelProperty(value = "响应码", example = "200")
     private String code;
+    @ApiModelProperty(value = "响应消息", example = "成功")
     private String msg;
+    @ApiModelProperty(value = "响应体")
     private T data;
 
     public Response() {
@@ -38,23 +38,23 @@ public class Response<T> {
 
 
     public static <T> Response<T> success(T data) {
-        return new Response("200", "success", data);
+        return new Response<>("200", "success", data);
     }
 
     public static Response success() {
-        return new Response<>(OK, "success", new ArrayList<>());
+        return new Response<>(OK, "success", null);
     }
 
     public static <T> Response<T> error() {
         return new Response<>(ERROR, null);
     }
 
-    public static <T> Response<T> error(String msg) {
-        return new Response(ERROR, msg, new ArrayList<>());
+    public static Response error(String msg) {
+        return new Response<>(ERROR, msg, null);
     }
 
-    public static <T> Response<T> auth(String msg) {
-        return new Response(NO_AUTH, msg, new ArrayList<>());
+    public static Response auth(String msg) {
+        return new Response<>(NO_AUTH, msg, null);
     }
 
     public static <T> Response<T> of(String code, String msg, T data) {
@@ -62,7 +62,7 @@ public class Response<T> {
     }
 
     public static Response of(String code, String msg) {
-        return new Response<>(code, msg, new ArrayList<>());
+        return new Response<>(code, msg, null);
     }
 
 }
