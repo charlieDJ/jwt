@@ -21,6 +21,7 @@ class MyQueue {
     /** Removes the element from in front of queue and returns that element. */
     public int pop() {
         if(s2.isEmpty()){
+            // 从一个栈导入到另外一个栈
             while (!s1.empty()){
                 s2.push(s1.pop());
             }

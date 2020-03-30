@@ -17,10 +17,11 @@ class MyStack {
     /** Push element x onto stack. */
     public void push(int x) {
         q1.offer(x);
+        // 后进的排在第一位
         while (!q2.isEmpty()){
             q1.offer(q2.poll());
         }
-
+        // 清空q1
         Queue temp = q1;
         q1 = q2;
         q2 = temp;
