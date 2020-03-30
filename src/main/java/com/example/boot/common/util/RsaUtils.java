@@ -15,12 +15,21 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public class RsaUtils {
 
-    //RSA最大加密明文大小
+    /**
+     * RSA最大加密明文大小
+     */
     private static final int MAX_ENCRYPT_BLOCK = 117;
-    // RSA最大解密密文大小
+    /**
+     * RSA最大解密密文大小
+     */
     private static final int MAX_DECRYPT_BLOCK = 128;
 
-    // 获取密钥对
+    /**
+     * 获取密钥对
+     *
+     * @return KeyPair
+     * @throws Exception
+     */
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         //定义秘钥长度为1024
@@ -28,7 +37,13 @@ public class RsaUtils {
         return generator.generateKeyPair();
     }
 
-    // 获取私钥
+    /**
+     * 获取私钥
+     *
+     * @param privateKey 私钥
+     * @return PrivateKey 对象
+     * @throws Exception
+     */
     public static PrivateKey getPrivateKey(String privateKey) throws Exception {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         byte[] decodedKey = Base64.decodeBase64(privateKey.getBytes());
@@ -36,7 +51,13 @@ public class RsaUtils {
         return keyFactory.generatePrivate(keySpec);
     }
 
-    //获取公钥
+    /**
+     * 获取公钥
+     *
+     * @param publicKey 公钥
+     * @return 公钥对象
+     * @throws Exception
+     */
     public static PublicKey getPublicKey(String publicKey) throws Exception {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         byte[] decodedKey = Base64.decodeBase64(publicKey.getBytes());
@@ -45,7 +66,14 @@ public class RsaUtils {
     }
 
 
-    //RSA加密
+    /**
+     * RSA加密
+     *
+     * @param data      元数据
+     * @param publicKey 公钥
+     * @return 加密后的数据
+     * @throws Exception
+     */
     public static String encrypt(String data, PublicKey publicKey) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -72,7 +100,14 @@ public class RsaUtils {
         return Base64.encodeBase64String(encryptedData);
     }
 
-    //RSA解密
+    /**
+     * RSA解密
+     *
+     * @param data       加密后的数据
+     * @param privateKey 私钥
+     * @return 解密数据
+     * @throws Exception
+     */
     public static String decrypt(String data, PrivateKey privateKey) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
@@ -100,7 +135,14 @@ public class RsaUtils {
     }
 
 
-    //签名
+    /**
+     * 签名
+     *
+     * @param data       未加密数据
+     * @param privateKey 私钥
+     * @return 加密后的数据
+     * @throws Exception
+     */
     public static String sign(String data, PrivateKey privateKey) throws Exception {
         byte[] keyBytes = privateKey.getEncoded();
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
@@ -112,7 +154,15 @@ public class RsaUtils {
         return new String(Base64.encodeBase64(signature.sign()));
     }
 
-    //验签
+    /**
+     * 验签
+     *
+     * @param srcData   加密后的数据
+     * @param publicKey 公钥
+     * @param sign      签名
+     * @return 是否通过验证
+     * @throws Exception
+     */
     public static boolean verify(String srcData, PublicKey publicKey, String sign) throws Exception {
         byte[] keyBytes = publicKey.getEncoded();
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
@@ -122,34 +172,6 @@ public class RsaUtils {
         signature.initVerify(key);
         signature.update(srcData.getBytes());
         return signature.verify(Base64.decodeBase64(sign.getBytes()));
-    }
-
-
-    public static void main(String[] args) {
-        try {
-            // 生成密钥对
-            KeyPair keyPair = getKeyPair();
-            String privateKey = new String(Base64.encodeBase64(keyPair.getPrivate().getEncoded()));
-            System.out.println("私钥:" + privateKey);
-            String publicKey = new String(Base64.encodeBase64(keyPair.getPublic().getEncoded()));
-            System.out.println("公钥:" + publicKey);
-            // RSA加密
-            String data = "小名登录密码";
-            String encryptData = encrypt(data, getPublicKey(publicKey));
-            System.out.println("加密后内容:" + encryptData);
-            // RSA解密
-            String decryptData = decrypt(encryptData, getPrivateKey(privateKey));
-            System.out.println("解密后内容:" + decryptData);
-
-            // RSA签名
-            String sign = sign(data, getPrivateKey(privateKey));
-            // RSA验签
-            boolean result = verify(data, getPublicKey(publicKey), sign);
-            System.out.print("验签结果:" + result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.print("加解密异常");
-        }
     }
 
 }
