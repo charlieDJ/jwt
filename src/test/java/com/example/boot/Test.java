@@ -5,7 +5,10 @@ package com.example.boot;
  */
 public class Test {
 
-
+    /**
+     * reverse_test
+     * @param args
+     */
     public static void main(String[] args) {
 //        System.out.println("执行结果：" + LevelCache.getDesc(2));
         System.out.println(3 &1);
