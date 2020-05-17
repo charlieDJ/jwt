@@ -11,7 +11,7 @@ class Solution {
         int res = 0;
         while (l <= r) {
             int m = l + (r - l) / 2;
-            if (m == x / m) {
+            if (m == x /  m) {
                 // 如果 m 的平方等于 x，直接返回
                 return m;
             } else if (m > x / m) {
