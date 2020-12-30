@@ -43,6 +43,14 @@ import java.util.stream.Collectors;
  * Collections.sort(your list, new AlphanumComparator());
  */
 public class AlphanumComparator implements Comparator<String> {
+
+    private AlphanumComparator() {
+    }
+
+    public static AlphanumComparator getInstance() {
+        return new AlphanumComparator();
+    }
+
     private boolean isDigit(char ch) {
         return ((ch >= 48) && (ch <= 57));
     }
@@ -75,6 +83,7 @@ public class AlphanumComparator implements Comparator<String> {
         return chunk.toString();
     }
 
+    @Override
     public int compare(String s1, String s2) {
         if ((s1 == null) || (s2 == null)) {
             return 0;
