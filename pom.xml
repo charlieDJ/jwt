@@ -33,7 +33,7 @@
         <targetResourcesProject>${basedir}/src/test/java/test</targetResourcesProject>
         <targetXMLPackage>xml</targetXMLPackage>
         <!--    5.1.6，根据mysql版本，按需修改    -->
-        <mysql.version>8.0.11</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <beanutils.version>1.9.3</beanutils.version>
         <okhttp.version>3.14.2</okhttp.version>
         <swagger2markup.version>1.3.3</swagger2markup.version>
