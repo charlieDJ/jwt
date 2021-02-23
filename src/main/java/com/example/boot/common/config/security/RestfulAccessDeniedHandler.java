@@ -1,4 +1,4 @@
-package com.example.boot.filter;
+package com.example.boot.common.config.security;
 
 import com.alibaba.fastjson.JSON;
 import com.example.boot.model.Response;
@@ -14,6 +14,7 @@ import java.io.IOException;
 /**
  * @author dengjia
  * @date 2019/8/15 17:52
+ * 没有权限，包括未登录
  */
 @Component
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler {

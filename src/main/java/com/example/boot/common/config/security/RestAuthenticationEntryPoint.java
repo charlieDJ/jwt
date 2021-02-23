@@ -1,4 +1,4 @@
-package com.example.boot.common.config;
+package com.example.boot.common.config.security;
 
 import com.alibaba.fastjson.JSON;
 import com.example.boot.common.util.ResponseHelper;
@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 统一处理被403响应的事件
+ * 统一处理被403响应的事件，通常是未登录
+ * @author dj
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

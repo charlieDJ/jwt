@@ -1,4 +1,4 @@
-package com.example.boot.service.impl;
+package com.example.boot.common.config.security;
 
 import com.example.boot.dao.model.JwtUser;
 import com.example.boot.dao.model.User;

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -24,13 +23,6 @@ public class GenericConfig {
                 .build();
     }
 
-    @Bean
-    public RabbitListenerErrorHandler rabbitListenerErrorHandler(){
-        return (amqpMessage, message, exception) -> {
-            log.error(exception.getMessage(), exception);
-            return exception;
-        };
-    }
 
     @Bean
     public MappingJackson2HttpMessageConverter mappingJacksonHttpMessageConverter() {

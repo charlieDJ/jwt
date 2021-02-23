@@ -7,6 +7,7 @@ import lombok.Setter;
 /**
  * 统一返回
  *
+ * @author dj
  * @param <T>
  */
 @Setter
@@ -41,7 +42,7 @@ public class Response<T> {
         return new Response<>("200", "success", data);
     }
 
-    public static Response success() {
+    public static <T> Response<T> success() {
         return new Response<>(OK, "success", null);
     }
 

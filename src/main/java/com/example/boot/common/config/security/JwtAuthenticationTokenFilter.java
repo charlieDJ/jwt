@@ -1,4 +1,4 @@
-package com.example.boot.filter;
+package com.example.boot.common.config.security;
 
 /**
  * @author dengjia
@@ -6,8 +6,10 @@ package com.example.boot.filter;
  */
 
 import com.example.boot.common.util.JwtTokenUtil;
+import com.example.boot.common.util.ResponseHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,12 +25,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * JWT登录授权过滤器
- * Created by macro on 2018/4/26.
+ * JWT登录授权过滤器，可继承 BasicAuthenticationFilter
+ * @author dj
  */
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
+    @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -41,27 +44,30 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH, HEAD");
-        response.addHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-        response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addIntHeader("Access-Control-Max-Age", 10);
-        String authHeader = request.getHeader(this.tokenHeader);
-        if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
+        ResponseHelper.responseAllowHeader(response);
+        try {
+            String authHeader = request.getHeader(this.tokenHeader);
+            if (authHeader == null || !authHeader.startsWith(this.tokenHead)) {
+                throw new RuntimeException("无效的请求头，authHeader：" + authHeader);
+            }
             String authToken = authHeader.substring(this.tokenHead.length());
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
             log.info("checking username:{}", username);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    log.info("authenticated user:{}", username);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+            if (username == null) {
+                throw new RuntimeException("解析token中的用户名，解析失败");
             }
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            if (!jwtTokenUtil.validateToken(authToken, userDetails)) {
+                throw new RuntimeException("验证失败");
+            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            log.info("authenticated user:{}", username);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (RuntimeException e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 }

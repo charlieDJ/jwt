@@ -36,10 +36,10 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
+    url: jdbc:mysql://192.168.132.129:3306/dj?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: admin
   redis:
-    host: 127.0.0.1
+    host: 192.168.132.129
     jedis:
       pool:
         max-idle: 32
@@ -49,7 +49,7 @@ spring:
         max-wait: 10s
         min-idle: 16
     password: '123456'
-    port: 16379
+    port: 6379
     timeout: 10s
   rabbitmq:
     host: 127.0.0.1

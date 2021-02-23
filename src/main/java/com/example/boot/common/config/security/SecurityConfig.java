@@ -1,8 +1,5 @@
 package com.example.boot.common.config.security;
 
-import com.example.boot.common.config.RestAuthenticationEntryPoint;
-import com.example.boot.filter.JwtAuthenticationTokenFilter;
-import com.example.boot.filter.RestfulAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -35,9 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     /**
-     * 加密密码的，安全第一嘛~
-     *
-     * @return
+     * 加密密码，安全第一
+     * @return 密码解析器
      */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

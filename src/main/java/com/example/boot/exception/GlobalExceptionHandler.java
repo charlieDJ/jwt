@@ -20,6 +20,7 @@ import java.util.Set;
 
 @Slf4j
 @ControllerAdvice
+@SuppressWarnings("all")
 public class GlobalExceptionHandler {
 
 

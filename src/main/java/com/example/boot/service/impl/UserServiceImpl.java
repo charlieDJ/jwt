@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +31,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Override
-    public Response register(RegisterRequest request) {
+    public Response<Object> register(RegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
         // 记得注册的时候把密码加密一下
@@ -62,6 +59,7 @@ public class UserServiceImpl implements UserService {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(jwtUser, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenUtil.generateToken(jwtUser);
+        // 也可以把token放在响应头里
         TokenResponse response = new TokenResponse();
         response.setToken(token)
                 .setTokenHead(tokenHead);
