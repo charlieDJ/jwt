@@ -5,10 +5,8 @@ import com.example.boot.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -20,14 +18,15 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author dengjia
  * @date 2019/10/17 18:20
  */
 @Order(2)
-@Aspect
-@Configuration
+//@Aspect
+//@Configuration
 @Slf4j
 public class LimitAspect {
 
@@ -35,7 +34,6 @@ public class LimitAspect {
 
     @Autowired
     private RedisTemplate<String, Serializable> limitRedisTemplate;
-
     @Autowired
     private DefaultRedisScript<Number> redisluaScript;
 
@@ -48,16 +46,15 @@ public class LimitAspect {
         RateLimit rateLimit = method.getAnnotation(RateLimit.class);
 
         if (rateLimit != null) {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpServletRequest request = ((ServletRequestAttributes)
+                    Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             String ipAddress = getIpAddr(request);
 
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(ipAddress).append("-")
-                    .append(targetClass.getName()).append("- ")
-                    .append(method.getName()).append("-")
-                    .append(rateLimit.key());
-
-            List<String> keys = Collections.singletonList(stringBuffer.toString());
+            String stringBuffer = ipAddress + "-" +
+                    targetClass.getName() + "- " +
+                    method.getName() + "-" +
+                    rateLimit.key();
+            List<String> keys = Collections.singletonList(stringBuffer);
 
             Number number = limitRedisTemplate.execute(redisluaScript, keys, rateLimit.count(), rateLimit.time());
 

@@ -5,7 +5,13 @@ import com.example.boot.common.enumeration.ImsiFlag;
 import com.example.boot.model.Response;
 import com.example.boot.model.response.TaskData;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 @RestController
 @RequestMapping("/tasks")
@@ -25,6 +31,7 @@ public class TaskController {
 
     /**
      * 10 秒中，可以访问10次
+     *
      * @param id
      * @return
      */
@@ -43,8 +50,23 @@ public class TaskController {
     }
 
     @PostMapping("/enum")
-    public Response receiveEnum(@RequestBody TaskData data) {
+    public Response<Object> receiveEnum(@RequestBody TaskData data) {
         log.info(data.getImsiFlag().getDesc());
         return Response.success();
+    }
+
+    @GetMapping("/download")
+    public void download(HttpServletResponse response) throws URISyntaxException, IOException {
+        String filePath = "D:\\temp\\利息计算.xlsx";
+        try (InputStream ins = new FileInputStream(new File(filePath));
+             OutputStream out = response.getOutputStream()) {
+            String outFileName = "利息计算.xlsx";
+            String percentEncodedFileName = URLEncoder.encode(outFileName, "utf-8")
+                    .replaceAll("\\+", "%20");
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + percentEncodedFileName + ";filename*=utf-8''"
+                    + percentEncodedFileName);
+            IOUtils.copy(ins, out);
+        }
     }
 }

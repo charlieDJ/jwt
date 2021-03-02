@@ -41,6 +41,7 @@
         <log.encoder.version>6.1</log.encoder.version>
         <jedis.version>3.1.0</jedis.version>
         <poi.version>3.17</poi.version>
+        <disruptor>3.4.2</disruptor>
     </properties>
 
     <dependencies>
@@ -224,6 +225,19 @@
             <artifactId>reactor-test</artifactId>
 <!--            <scope>test</scope>-->
         </dependency>
+
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+
 
     </dependencies>
 

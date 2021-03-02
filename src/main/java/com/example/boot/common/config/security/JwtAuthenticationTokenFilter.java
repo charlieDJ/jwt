@@ -48,7 +48,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         try {
             String authHeader = request.getHeader(this.tokenHeader);
             if (authHeader == null || !authHeader.startsWith(this.tokenHead)) {
-                throw new RuntimeException("无效的请求头，authHeader：" + authHeader);
+                // 有些请求需要放行，在这里不做验证。对于不放行的url，如果没有token，authentication那里是过不了的
+                log.debug("auth请求头为空或请求头参数不正确，authHeader:{}", authHeader);
+                return;
             }
             String authToken = authHeader.substring(this.tokenHead.length());
             String username = jwtTokenUtil.getUserNameFromToken(authToken);

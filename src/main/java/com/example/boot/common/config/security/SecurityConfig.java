@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers(
                         "/auth/register",
-                        "/auth/login"
+                        "/auth/login",
+                        "/tasks/download"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()// 其他请求都要鉴权
