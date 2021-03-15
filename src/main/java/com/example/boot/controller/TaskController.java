@@ -1,9 +1,12 @@
 package com.example.boot.controller;
 
+import com.example.boot.common.anno.ApiContainProperty;
 import com.example.boot.common.anno.RateLimit;
 import com.example.boot.common.enumeration.ImsiFlag;
 import com.example.boot.model.Response;
+import com.example.boot.model.request.OrderRequest;
 import com.example.boot.model.response.TaskData;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.*;
@@ -69,4 +72,11 @@ public class TaskController {
             IOUtils.copy(ins, out);
         }
     }
+    @PostMapping("/query")
+    @ApiOperation(value = "查询订单", notes = "查询订单")
+    public Response<Object> query(@ApiContainProperty("id") @RequestBody OrderRequest request) {
+        log.info("查询订单");
+        return Response.success();
+    }
+
 }
