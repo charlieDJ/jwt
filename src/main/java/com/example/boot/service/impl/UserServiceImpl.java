@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         // 记得注册的时候把密码加密一下
         user.setPassword(encoder.encode(request.getPassword()));
         user.setRole("ROLE_USER");
-//        userMapper.insert(user);
+        userMapper.insertSelective(user);
         return Response.success();
     }
 

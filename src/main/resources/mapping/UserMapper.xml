@@ -3,20 +3,105 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.boot.dao.mapper.UserMapper">
     <select id="getByName" parameterType="String" resultMap="userMap">
-        select * from `jd_user` where username = #{username}
+        select <include refid="Base_Column_List" /> from `jd_user` where username = #{username}
     </select>
 
-    <resultMap id="userMap" type="com.example.boot.entity.User">
-        <id property="id" column="id"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
-        <result property="role" column="role"/>
+    <resultMap id="userMap" type="com.example.boot.entity.User" extends="BaseResultMap">
         <association property="dept" javaType="com.example.boot.entity.Dept"
-                     select="com.example.boot.dao.mapper.DeptMapper.getById" column="dept_id"/>
+                     select="com.example.boot.dao.mapper.DeptMapper.selectByPrimaryKey" column="dept_id"/>
     </resultMap>
 
-
     <select id="getAll" parameterType="String" resultMap="userMap">
-        select * from jd_user
+        select <include refid="Base_Column_List" /> from jd_user
     </select>
+
+    <resultMap id="BaseResultMap" type="com.example.boot.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="role" jdbcType="VARCHAR" property="role" />
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, username, `password`, `role`, dept_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from jd_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="findAllByDeptId" resultType="com.example.boot.entity.User">
+        select
+        <include refid="Base_Column_List" />
+        from jd_user
+        where dept_id = #{deptId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from jd_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.boot.entity.User" useGeneratedKeys="true">
+        insert into jd_user (username, `password`, `role`,
+                             dept_id)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR},
+                #{deptId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.boot.entity.User" useGeneratedKeys="true">
+        insert into jd_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="role != null">
+                `role`,
+            </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.boot.entity.User">
+        update jd_user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="role != null">
+                `role` = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.boot.entity.User">
+        update jd_user
+        set username = #{username,jdbcType=VARCHAR},
+            `password` = #{password,jdbcType=VARCHAR},
+            `role` = #{role,jdbcType=VARCHAR},
+            dept_id = #{deptId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

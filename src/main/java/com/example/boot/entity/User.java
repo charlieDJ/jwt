@@ -1,5 +1,6 @@
 package com.example.boot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Entity
 @Table(name = "`jd_user`")
+@JsonIgnoreProperties(value = {"handler"})
 public class User {
     @Id
     @GeneratedValue(generator = "JDBC")
@@ -28,5 +30,7 @@ public class User {
 
     @Transient
     private Dept dept;
+
+    private String deptId;
 
 }

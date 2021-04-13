@@ -1,13 +1,15 @@
 package com.example.boot.dao.mapper;
 
+
 import com.example.boot.entity.Dept;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+/**
+ * DeptMapper继承基类
+ */
 @Repository
-public interface DeptMapper {
+public interface DeptMapper extends BaseMapper<Dept, Integer> {
 
-    Optional<Dept> getById(@Param("id") Integer id);
+
+
 }
