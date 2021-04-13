@@ -1,7 +1,6 @@
 package com.example.boot.dao.mapper;
 
-import com.example.boot.dao.BaseMapper;
-import com.example.boot.dao.model.Customer;
+import com.example.boot.entity.Customer;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerMapper extends BaseMapper<Customer> {
+public interface CustomerMapper {
 
     @Select("select * from customer where customer_id = #{uid}")
     @Results(id = "userMap", value = {

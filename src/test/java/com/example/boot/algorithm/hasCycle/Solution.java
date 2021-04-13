@@ -1,6 +1,7 @@
 package com.example.boot.algorithm.hasCycle;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 class Solution {
@@ -11,6 +12,19 @@ class Solution {
 
         ListNode(int x) {
             val = x;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ListNode listNode = (ListNode) o;
+            return val == listNode.val;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(val);
         }
     }
 
@@ -34,6 +48,7 @@ class Solution {
         listNode.next.next = new ListNode(2);
         listNode.next.next.next = new ListNode(3);
         listNode.next.next.next.next = new ListNode(4);
+        listNode.next.next.next.next.next = new ListNode(0);
         final Solution solution = new Solution();
         System.out.println(solution.hasCycle(listNode));
 

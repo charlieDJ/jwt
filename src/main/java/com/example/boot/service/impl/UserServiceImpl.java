@@ -2,8 +2,8 @@ package com.example.boot.service.impl;
 
 import com.example.boot.common.util.JwtTokenUtil;
 import com.example.boot.dao.mapper.UserMapper;
-import com.example.boot.dao.model.JwtUser;
-import com.example.boot.dao.model.User;
+import com.example.boot.entity.JwtUser;
+import com.example.boot.entity.User;
 import com.example.boot.exception.CustomException;
 import com.example.boot.model.Response;
 import com.example.boot.model.request.RegisterRequest;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         // 记得注册的时候把密码加密一下
         user.setPassword(encoder.encode(request.getPassword()));
         user.setRole("ROLE_USER");
-        userMapper.insert(user);
+//        userMapper.insert(user);
         return Response.success();
     }
 

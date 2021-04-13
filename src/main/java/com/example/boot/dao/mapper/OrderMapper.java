@@ -1,8 +1,6 @@
 package com.example.boot.dao.mapper;
 
-import com.example.boot.dao.BaseMapper;
 import com.example.boot.dao.handler.TimeStringTypeHandler;
-import com.example.boot.dao.model.Order;
 import com.example.boot.model.response.StockOrderData;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -17,7 +15,7 @@ import java.util.Optional;
  * @date 2019/10/17 14:32
  */
 @Repository
-public interface OrderMapper extends BaseMapper<Order> {
+public interface OrderMapper {
 
     @Select("select * from stock_order where id = #{id}")
     @Results(value = {

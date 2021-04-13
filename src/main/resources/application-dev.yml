@@ -18,8 +18,10 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     default-enum-type-handler: com.example.boot.dao.handler.LabelValueTypeHandler
-  type-aliases-package: com.example.boot.dao.model
+  type-aliases-package: com.example.boot.entity
   type-handlers-package: com.example.boot.dao.handler
+  mapper-locations: classpath:mapping/*Mapper.xml
+
 server:
   port: 8090
 spring:

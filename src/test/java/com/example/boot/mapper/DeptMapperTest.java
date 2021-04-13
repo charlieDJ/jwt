@@ -2,7 +2,7 @@ package com.example.boot.mapper;
 
 import com.example.boot.JwtApplicationTests;
 import com.example.boot.dao.mapper.DeptMapper;
-import com.example.boot.model.response.DeptData;
+import com.example.boot.entity.Dept;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,8 +19,8 @@ public class DeptMapperTest extends JwtApplicationTests {
 
     @Test
     public void getTest() {
-        final Optional<DeptData> deptOpt = deptMapper.getById(8);
-        final DeptData deptData = deptOpt.get();
+        final Optional<Dept> deptOpt = deptMapper.getById(8);
+        final Dept deptData = deptOpt.get();
         System.err.println(deptData.toString());
     }
 

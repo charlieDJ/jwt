@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.boot.dao.mapper.UserMapper">
+    <select id="getByName" parameterType="String" resultMap="userMap">
+        select * from `jd_user` where username = #{username}
+    </select>
+
+    <resultMap id="userMap" type="com.example.boot.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="role" column="role"/>
+        <association property="dept" javaType="com.example.boot.entity.Dept"
+                     select="com.example.boot.dao.mapper.DeptMapper.getById" column="dept_id"/>
+    </resultMap>
+
+
+    <select id="getAll" parameterType="String" resultMap="userMap">
+        select * from jd_user
+    </select>
+</mapper>
