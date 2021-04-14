@@ -5,9 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
-    <collection property="users" ofType="com.example.boot.entity.User" fetchType="eager"
-                select="com.example.boot.dao.mapper.UserMapper.findAllByDeptId" column="id"/>
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName"  />
   </resultMap>
   <sql id="Base_Column_List">
     id, tel, address, dept_name

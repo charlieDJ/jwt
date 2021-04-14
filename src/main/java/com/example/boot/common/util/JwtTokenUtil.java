@@ -90,6 +90,10 @@ public class JwtTokenUtil {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
+    public boolean simpleValidate(String token) {
+        return isTokenExpired(token);
+    }
+
     /**
      * 判断token是否已经失效
      */

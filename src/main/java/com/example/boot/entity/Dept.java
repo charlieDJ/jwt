@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -32,7 +31,5 @@ public class Dept {
 
     @Column(name = "`dept_name`")
     private String deptName;
-
-    private Set<User> users;
 
 }

@@ -23,9 +23,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JWT登录授权过滤器，可继承 BasicAuthenticationFilter
+ *
  * @author dj
  */
 @Slf4j
@@ -59,6 +61,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 throw new RuntimeException("解析token中的用户名，解析失败");
             }
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            if (Objects.isNull(userDetails)) {
+                throw new RuntimeException("未查找到用户");
+            }
             if (!jwtTokenUtil.validateToken(authToken, userDetails)) {
                 throw new RuntimeException("验证失败");
             }
