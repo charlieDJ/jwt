@@ -18,6 +18,9 @@ import javax.persistence.Table;
 @Table(name = "`dept`")
 @JsonIgnoreProperties(value = {"handler"})
 public class Dept {
+    /**
+     * 主键
+     */
     @Id
     @Column(name = "`id`")
     @GeneratedValue(generator = "JDBC")
