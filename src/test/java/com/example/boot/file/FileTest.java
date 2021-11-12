@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
@@ -26,9 +27,10 @@ public class FileTest {
     public void getCountTest() {
         long count = 0;
         try {
-            count = Files.walk(Paths.get("E:\\temp\\jwt"))
+            Stream<Path> paths = Files.walk(Paths.get("E:\\temp\\jwt"))
                     .filter(path -> !Files.isDirectory(path))
-                    .filter(path -> path.toString().endsWith("log"))
+                    .filter(path -> path.toString().endsWith("log"));
+            Stream<String> stringStream = paths
                     .flatMap(path1 -> {
                         try {
                             return Files.lines(path1);
@@ -36,7 +38,8 @@ public class FileTest {
                             e.printStackTrace();
                             return Stream.empty();
                         }
-                    })
+                    });
+            count = stringStream
                     .filter(line -> !line.trim().isEmpty())
                     .count();
         } catch (IOException e) {

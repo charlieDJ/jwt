@@ -12,6 +12,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class DeptData {
+    private int id;
+
     private Integer deptno;
 
     private String dname;

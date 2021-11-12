@@ -40,10 +40,10 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.132.129:3306/dj?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://192.168.139.128:3306/dj?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: admin
   redis:
-    host: 192.168.132.129
+    host: 192.168.139.128
     jedis:
       pool:
         max-idle: 32
