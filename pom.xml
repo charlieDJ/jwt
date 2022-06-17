@@ -20,7 +20,7 @@
         <springfox.version>2.9.2</springfox.version>
         <swagger.bootstrap.version>1.9.5</swagger.bootstrap.version>
         <mybatis.version>2.1.4</mybatis.version>
-        <fastjson.version>1.2.58</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <pageHelper.version>1.2.12</pageHelper.version>
         <!--mapper生成路径-->
         <targetJavaProject>${basedir}/src/test/java/test</targetJavaProject>
